@@ -12,10 +12,10 @@ void RayTracer::traceray(image &img, const Scene &scene) {
     float t = viewport_height/2;
     float b = -t;
 
-    Camera &cam = scene.main_camera();
-    vector3 U = cam.plane.U;
-    vector3 V = cam.plane.V;
-    vector3 W = cam.plane.W;
+    const Camera &cam = scene.main_camera();
+    const vector3 &U = cam.plane.U;
+    const vector3 &V = cam.plane.V;
+    const vector3 &W = cam.plane.W;
 
     // For each pixel 
     for (int y = 0; y < height; y++) {

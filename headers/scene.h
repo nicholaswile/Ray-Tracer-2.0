@@ -10,6 +10,6 @@ public:
     std::vector<Camera> cameras; // Might want multiple cameras in the scene
     std::vector<Surface*> surfaces; // All surfaces in scene, could be sphere, triangle, etc    
     rgba background_color;
-    Camera& main_camera();
+    const Camera& main_camera() const;
     Scene(const Camera &c);
 };

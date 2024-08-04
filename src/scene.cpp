@@ -5,6 +5,6 @@ Scene::Scene(const Camera &c) {
     background_color = rgba(0, 0, 0, 255);
 }
 
-Camera& Scene::main_camera() {
-    return this->cameras[0];
+const Camera& Scene::main_camera() const {
+    return cameras[0];
 }
