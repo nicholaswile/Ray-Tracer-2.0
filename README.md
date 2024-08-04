@@ -6,4 +6,14 @@ This is a work in progress currently in development.
 
 |Sphere Surface Color|
 |--------------------|
-|<img src="screenshots/surface_color.bmp">|
+|<img src="screenshots/surface_color.png">|
+
+### External libraries
+<ul>
+<li>
+<a href="">Simple DirectMedia Layer</a> (SDL) for windowing and input. Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+</li>
+<li>
+<a href="https://github.com/libsdl-org/SDL_image">SDL_image</a> for image decoding. Copyright (C) 1997-2024 Sam Lantinga <slouken@libsdl.org>
+</li> 
+</u

@@ -1,4 +1,5 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include "../headers/render.h"
 #include "../headers/sphere.h"
@@ -125,7 +126,7 @@ void display_renderer (SDL_Renderer *renderer, image &img){
 void take_screenshot(SDL_Renderer *renderer) {
     SDL_Surface *sshot = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
     SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
-    std::string saveas = "screenshots/screenshot-"+std::to_string(time(0))+".bmp";
-    SDL_SaveBMP(sshot, saveas.c_str());
+    std::string saveas = "screenshots/screenshot-"+std::to_string(time(0))+".png";
+    IMG_SavePNG(sshot, saveas.c_str());
     SDL_FreeSurface(sshot);
 }

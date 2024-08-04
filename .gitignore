@@ -1,3 +1,4 @@
-/tests
 /.vscode
+/tests
 /SDL2.dll
+/SDL2_image.dll
