@@ -4,5 +4,5 @@
 
 class RayTracer {
 public:
-    void traceray(image &img, Scene &scene);
+    void traceray(image &img, const Scene &scene);
 };

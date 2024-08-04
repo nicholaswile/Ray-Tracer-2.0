@@ -1,6 +1,6 @@
 #include "../headers/render.h"
 
-void RayTracer::traceray(image &img, Scene &scene) {
+void RayTracer::traceray(image &img, const Scene &scene) {
     // View frustrum
     float height = img.height;
     float width = img.width;
@@ -38,7 +38,7 @@ void RayTracer::traceray(image &img, Scene &scene) {
             }
 
             // Ray intersection: find first object and its surface normal
-            for (auto &object : scene.surfaces) {
+            for (const auto &object : scene.surfaces) {
                 float t = 0; 
                 vector3 intersection (0, 0, 0);
                 hit_record rec = {t, intersection};

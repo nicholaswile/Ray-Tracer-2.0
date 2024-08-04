@@ -26,7 +26,6 @@ vector2& vector2::operator-=(const vector2 &rhs) {
     return *this;
 }
 
-
 vector2& vector2::operator*=(const float f) {
     x *= f;
     y *= f;
