@@ -4,6 +4,11 @@ Last year I built a Ray Tracer using C++ with the Windows API to draw pixels to 
 
 This is a work in progress currently in development.
 
+|Triangle Ray (Möller–Trumbore intersection algorithm)|
+|-------------------------|
+|<img src="screenshots/triangles.png">|
+For now I'm gonna focus on the spheres, but eventually I'd like to use this towards rendering 3D models comprised of triangle meshes.
+
 |Sphere Surface Color|
 |--------------------|
 |<img src="screenshots/surface_color.png">|

@@ -57,24 +57,32 @@ int main(int argc, char* argv[]) {
     Scene scene(main_cam);
     Material mat1, mat2, mat3, mat4;
     
-    // Surface *s1 = new Sphere(vector3(0, 0, 1), 1);
-    // mat1.surface_color = rgba(255, 255, 255);
-    // s1->material = &mat1;
-    // scene.surfaces.push_back(s1);
+    Surface *s1 = new Sphere(vector3(0, 0, 1), 1);
+    mat1.surface_color = rgba(255, 255, 255);
+    s1->material = &mat1;
+    scene.surfaces.push_back(s1);
 
-    // Surface *s2 = new Sphere(vector3(2.5, 0, 1), 1);
-    // mat2.surface_color = rgba(163, 163, 163);
-    // s2->material = &mat2;
-    // scene.surfaces.push_back(s2);
+    Surface *s2 = new Sphere(vector3(2.5, 0, 1), 1);
+    mat2.surface_color = rgba(163, 163, 163);
+    s2->material = &mat2;
+    scene.surfaces.push_back(s2);
 
-    // Surface *s3 = new Sphere(vector3(-2.5, 0, 1), 1);
+    Surface *s3 = new Sphere(vector3(-2.5, 0, 1), 1);
     mat3.surface_color = rgba(128, 0, 218);
-    // s3->material = &mat3;
-    // scene.surfaces.push_back(s3);
+    s3->material = &mat3;
+    scene.surfaces.push_back(s3);
 
-    Surface *s4 = new Triangle(vector3(-2.5, -2.5, 2), vector3(0, 2.5, 2), vector3(2.5, -2.5, 2));
+    Surface *s4 = new Triangle(vector3(-1, -1.5, 2), vector3(0, -3.5, 2), vector3(1, -1.5, 2));
     s4->material = &mat3;
     scene.surfaces.push_back(s4);
+
+    Surface *s5 = new Triangle(vector3(-3.5, -1.5, 2), vector3(-2.5, -3.5, 2), vector3(-1.5, -1.5, 2));
+    s5->material = &mat2;
+    scene.surfaces.push_back(s5);
+
+    Surface *s6 = new Triangle(vector3(3.5, -1.5, 2), vector3(2.5, -3.5, 2), vector3(1.5, -1.5, 2));
+    s6->material = &mat1;
+    scene.surfaces.push_back(s6);
 
 
 
