@@ -11,10 +11,8 @@ struct hit_record {
 class Surface {
 public:
 
-    vector3 origin;
-
     virtual bool hit_ray(const Ray &ray, float t0, float t1, hit_record &rec) = 0;
-    Surface(const vector3 &origin);
+    Surface();
     Material *material;
 
     // TODO: bounding box
