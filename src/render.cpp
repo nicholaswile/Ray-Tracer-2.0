@@ -41,21 +41,26 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             float t1 = std::numeric_limits<float>::max();
             Surface *hit_object = nullptr;
             bool hit = false;
+            hit_record rec = {0, vector3(0, 0, 0)};
             for (const auto &object : scene.surfaces) {
-                float t = 0; 
-                vector3 intersection (0, 0, 0);
-                hit_record rec = {t, intersection};
                 if (!object->hit_ray(*ray, 0, t1, rec)) 
                     continue;
                 hit = true;
-                t1 = t;
+                t1 = rec.t;
                 hit_object = object;
             }
-            if (hit)
-                // Shading: set pixel color to value computed from point, light, and normal
-                img.set_pixel(x, y, hit_object->material->surface_color);
-            else
-                img.set_pixel(x, y, scene.background_color);
+            if (!hit) {
+                img.set_pixel(x, y, (scene.background_color));
+                continue;
+            }
+
+            // Shading: set pixel color to value computed from point, light, and normal
+            vector3 intersection = ray->origin + ray->direction * rec.t;
+            rgba L(0,0,0);
+            for (const auto &light : scene.lights) {
+                L += light->compute_shading(hit_object->material, rec.normal, ray->direction, intersection);
+            }
+            img.set_pixel(x, y, L);
                 
             delete ray;
         }

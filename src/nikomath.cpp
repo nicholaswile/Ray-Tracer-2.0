@@ -126,11 +126,11 @@ vector3 vector3::operator/(const float f) const {
     return vector3(x / f, y / f, z / f);
 }
 
-float vector3::mag() {
+float vector3::mag() const {
     return sqrt(x*x+y*y+z*z);
 }
 
-vector3 vector3::normalize()
+vector3 vector3::normalize() const
 {
     return vector3(x,y,z)/mag();
 }

@@ -57,8 +57,8 @@ public:
     vector3 operator*(const float f) const;
     vector3 operator/(const float f) const;
 
-    float mag();
-    vector3 normalize();
+    float mag() const;
+    vector3 normalize() const;
 
     // Display
     void print();
