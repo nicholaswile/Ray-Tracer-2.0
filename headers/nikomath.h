@@ -5,6 +5,7 @@
 #include <cmath> // gives sqrt()
 #include <limits> // gives numeric_limits
 
+
 // 2D Vector class that stores an x- and y-component.
 class vector2 {
 public:

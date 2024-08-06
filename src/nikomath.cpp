@@ -139,7 +139,7 @@ void vector3::print() {
     std::cout << "(" << x << ", " << y << ", " << z << ")\n";
 }
 
-rgba::rgba() : r(0), g(0), b(0), a(0) {}
+rgba::rgba() : r(255), g(255), b(255), a(255) {}
 
 rgba::rgba(int r, int g, int b, int a) : r(r), g(g), b(b), a(a) {}
 
@@ -231,7 +231,15 @@ image::~image()
 void image::set_pixel(int x, int y, const rgba &color) {
     if (x < 0 || x >= width || y < 0 || y >= height)
         std::runtime_error("Pixel coordinates out of bounds.\n");
-    buffer[y][x] = color;
+    // Clamp
+    rgba L = color;
+    if (L.r > 255) L.r = 255;
+    else if (L.r < 0) L.r = 0;
+    if (L.g > 255) L.g = 255;
+    else if (L.g < 0) L.g = 0;
+    if (L.b > 255) L.b = 255;
+    else if (L.b < 0) L.b = 0;
+    buffer[y][x] = L;
 }
 
 rgba image::get_pixel(int x, int y)
