@@ -4,6 +4,10 @@ Last year I built a Ray Tracer using C++ with the Windows API to draw pixels to 
 
 This is a work in progress currently in development.
 
+|Lambert Shading|
+|---------------|
+|<img src="screenshots/lambert.png">|
+
 |Triangle Ray (Möller–Trumbore intersection algorithm)|
 |-------------------------|
 |<img src="screenshots/triangles.png">|
