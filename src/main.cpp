@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
     main_cam.focal_length = 50.f;
     main_cam.position = vector3(0, 0, -50);
     Scene scene(main_cam);
+    scene.background_color = rgba(128, 0, 218);
     Material mat1, mat2, mat3, mat4;
     
     Surface *s1 = new Sphere(vector3(0, 0, 1), 1);
@@ -84,7 +85,12 @@ int main(int argc, char* argv[]) {
     s6->material = &mat1;
     scene.surfaces.push_back(s6);
 
+    Surface *s7 = new Sphere(vector3(0, 0, 5), 5);
+    mat4.surface_color = rgba(0, 0, 0);
+    s7->material = &mat4;
+    scene.surfaces.push_back(s7);
 
+   
 
     // Ray Tracer function
     rt.traceray(img, scene);

@@ -38,18 +38,25 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             }
 
             // Ray intersection: find first object and its surface normal
+            float t1 = std::numeric_limits<float>::max();
+            Surface *hit_object = nullptr;
+            bool hit = false;
             for (const auto &object : scene.surfaces) {
                 float t = 0; 
                 vector3 intersection (0, 0, 0);
                 hit_record rec = {t, intersection};
-                if (!object->hit_ray(*ray, 0, std::numeric_limits<float>::max(), rec)) {
-                    // img.set_pixel(x, y, scene.background_color);
+                if (!object->hit_ray(*ray, 0, t1, rec)) 
                     continue;
-                }
-                
-                // Shading: set pixel color to value computed from point, light, and normal
-                img.set_pixel(x, y, object->material->surface_color);
+                hit = true;
+                t1 = t;
+                hit_object = object;
             }
+            if (hit)
+                // Shading: set pixel color to value computed from point, light, and normal
+                img.set_pixel(x, y, hit_object->material->surface_color);
+            else
+                img.set_pixel(x, y, scene.background_color);
+                
             delete ray;
         }
     }
