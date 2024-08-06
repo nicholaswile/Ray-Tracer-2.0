@@ -1,4 +1,4 @@
-#include "material.h"
+#include "../headers/material.h"
 
 void Material::set_model(MODEL model) 
 {
