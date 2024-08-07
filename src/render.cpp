@@ -57,9 +57,14 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             // Shading: set pixel color to value computed from point, light, and normal
             vector3 intersection = ray->origin + ray->direction * rec.t;
             rgba L(0,0,0);
+            vector3 average_intensity(0,0,0);
             for (const auto &light : scene.lights) {
                 L += light->compute_shading(hit_object->material, rec.normal, ray->origin, intersection);
+                average_intensity += light->ambient_intensity;
             }
+            if (scene.lights.size() > 0) average_intensity/=scene.lights.size();
+            L += hit_object->material->ambient_color * average_intensity;
+
             img.set_pixel(x, y, L);
                 
             delete ray;

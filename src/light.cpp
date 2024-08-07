@@ -29,7 +29,8 @@ rgba Light::compute_shading(const Material *mat, const vector3 &n, const vector3
         }
 
         case MODEL::AMBIENT: {
-            I += mat->ambient_color * this->ambient_intensity;
+            // Only ambient is caluclated (outside of this function)
+            // This is because, if multiple lights are in the scene, we want to average their ambient effect
         }
     }
 
