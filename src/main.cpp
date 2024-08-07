@@ -94,15 +94,22 @@ int main(int argc, char* argv[]) {
     s4->material = &mat4;
     scene.surfaces.push_back(s4);
 
-    Light *l1 = new Light(vector3(-20, -40, -20));
+    // Surface *t1 = new Triangle(vector3(-25, 5, -100), vector3(25, 5, -100), vector3(-25, 5, 100));
+    // Surface *t2 = new Triangle(vector3(25, 5, -100), vector3(-25, 5, 100), vector3(25, 5, 100));
+    // t1->material = &mat4;
+    // t2->material = &mat4;
+    // scene.surfaces.push_back(t1);
+    // scene.surfaces.push_back(t2);
+    
+    Light *l1 = new Light(vector3(-10, -10, -20));
     scene.lights.push_back(l1);
 
-    Light *l2 = new Light(vector3(20, -40, -80));
+    Light *l2 = new Light(vector3(10, -20, -40));
     l2->intensity = vector3(.15, .15, .15);
     scene.lights.push_back(l2);
 
-    Light *l3 = new Light(vector3(20, 40, -80));
-    l3->intensity = vector3(.1, .1, .1);
+    Light *l3 = new Light(vector3(10, -20, 20));
+    l3->intensity = vector3(.05, .05, .05);
     scene.lights.push_back(l3);
 
     // Surface *s4 = new Triangle(vector3(-1, -1.5, 2), vector3(0, -3.5, 2), vector3(1, -1.5, 2));

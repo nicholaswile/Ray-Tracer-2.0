@@ -1,5 +1,8 @@
 #include "../headers/render.h"
 
+const float POS_INFINITY = std::numeric_limits<float>::max();
+const float EPSILON = .001;
+
 void RayTracer::traceray(image &img, const Scene &scene) {
     // View frustrum
     float height = img.height;
@@ -38,7 +41,7 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             }
 
             // Ray intersection: find first object and its surface normal
-            float t1 = std::numeric_limits<float>::max();
+            float t1 = POS_INFINITY;
             Surface *hit_object = nullptr;
             bool hit = false;
             hit_record rec = {0, vector3(0, 0, 0)};
@@ -59,9 +62,22 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             rgba L(0,0,0);
             vector3 average_intensity(0,0,0);
             for (const auto &light : scene.lights) {
-                L += light->compute_shading(hit_object->material, rec.normal, ray->origin, intersection);
+
+                // Check if this point is in shadow
+                vector3 shadow_dir = (light->pos - intersection).normalize();
+                Ray shadow_ray(intersection+shadow_dir*EPSILON, shadow_dir);
+                hit_record srec = {0, vector3(0, 0, 0)};
+                bool shadow = false;
+                if (scene.enable_shadows)
+                    for (const auto &object : scene.surfaces) {
+                        if (object->hit_ray(shadow_ray, EPSILON, POS_INFINITY, srec)) 
+                            shadow = true;
+                }
+                
                 average_intensity += light->ambient_intensity;
+                if (!shadow) L += light->compute_shading(hit_object->material, rec.normal, ray->origin, intersection);
             }
+
             if (scene.lights.size() > 0) average_intensity/=scene.lights.size();
             L += hit_object->material->ambient_color * average_intensity;
 
