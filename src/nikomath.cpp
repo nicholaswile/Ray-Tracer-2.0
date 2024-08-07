@@ -156,6 +156,10 @@ rgba rgba::operator*(const rgba &rhs) const {
     return rgba(r*rhs.r, g*rhs.g, b*rhs.b, a*rhs.a);
 }
 
+rgba rgba::operator*(const vector3 &rhs) const {
+    return rgba(r*rhs.x, g*rhs.y, b*rhs.z, a);
+}
+
 // Unary operators
 rgba& rgba::operator+=(const rgba &rhs) {
     r += rhs.r;

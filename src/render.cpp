@@ -58,7 +58,7 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             vector3 intersection = ray->origin + ray->direction * rec.t;
             rgba L(0,0,0);
             for (const auto &light : scene.lights) {
-                L += light->compute_shading(hit_object->material, rec.normal, ray->direction, intersection);
+                L += light->compute_shading(hit_object->material, rec.normal, ray->origin, intersection);
             }
             img.set_pixel(x, y, L);
                 

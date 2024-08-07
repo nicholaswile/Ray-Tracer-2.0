@@ -1,33 +1,37 @@
 #include "../headers/light.h"
 
-Light::Light(const vector3 &pos, const rgba &intensity) : pos(pos), intensity(intensity) {}
+Light::Light(const vector3 &pos, const vector3 &intensity) : pos(pos), intensity(intensity) {}
 
-rgba Light::compute_shading(const Material *mat, const vector3 &N, const vector3 &V, const vector3 &intersection) {
-    rgba L(0, 0, 0);
-    vector3 l = intersection - pos;
-    vector3 bisector = (V.normalize()+l.normalize()); // If V x l create a plane, bisector is the diagonal 
-    float angle;
+rgba Light::compute_shading(const Material *mat, const vector3 &n, const vector3 &e, const vector3 &p) {
+    rgba I(0, 0, 0);
+    vector3 N = n.normalize();
+    vector3 L = (this->pos - p).normalize();
+    vector3 V = (e - p).normalize();
+    vector3 Bi = (V + L).normalize();  // If V x L create a plane, bisector is the diagonal 
+
+    // The angle between the light and the surface determines how bright it is
+    float N_dot_L = N * L;
+    // If the Bi is close to the surface normal (angle diff close to 0, sine close to 1), the shine is reflecting into our eyes
+    float N_dot_B = N * Bi;
 
     // No break statements because models add to each other top to bottom
     switch (mat->model) {
-        case MODEL::AMBIENT: {
-            L += rgba(0,0,0);
-        }
-
+        default:
+        
         case MODEL::BLINN_PHONG: {
-            // If the bisector is close to the surface normal (angle diff close to 0, sine close to 1), the shine is reflecting into our eyes
-            angle = N.normalize() * bisector; 
-            float phong = (angle > 0 ? angle : 0);
-            // L += (mat->specular_color * this->intensity * pow(phong, mat->phong_exponent));
-            L += (mat->specular_color * this->intensity * phong);
+            float specular = pow((N_dot_B > 0 ? N_dot_B : 0), mat->phong_exponent);
+            I += (mat->specular_color * this->intensity * specular);
         }
 
         case MODEL::LAMBERT: {
-            // The angle between the light and the surface determines how bright it is
-            angle = N.normalize() * l.normalize(); 
-            L += (mat->diffuse_color * this->intensity * (angle > 0 ? angle : 0));
+            float lambert = N_dot_L > 0 ? N_dot_L : 0;
+            I += (mat->diffuse_color * this->intensity * lambert);
+        }
+
+        case MODEL::AMBIENT: {
+            I += mat->ambient_color * this->ambient_intensity;
         }
     }
 
-    return L;
+    return I;
 }

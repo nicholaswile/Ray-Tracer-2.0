@@ -73,7 +73,7 @@ class hvector {
 // RGBA color that stores red, green, blue, and alpha components. Alpha is 255 by default.
 class rgba {
 public:
-    int r, g, b, a;
+    float r, g, b, a;
     rgba();
     rgba(int r, int g, int b, int a=255);
 
@@ -81,6 +81,7 @@ public:
     rgba operator+(const rgba &rhs) const;
     rgba operator-(const rgba &rhs) const;
     rgba operator*(const rgba &rhs) const;
+    rgba operator*(const vector3 &rhs) const;
 
     // Unary operators
     rgba& operator+=(const rgba &rhs);
