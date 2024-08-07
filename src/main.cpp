@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     mat1.ambient_color = mat1.diffuse_color;
     mat1.specular_color = rgba(163, 163, 163);
     mat1.phong_exponent = 100;
-    mat1.model = MODEL::AMBIENT;
+    mat1.model = MODEL::BLINN_PHONG;
     s1->material = &mat1;
     scene.surfaces.push_back(s1);
 
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     mat2.ambient_color = mat2.diffuse_color;
     mat2.specular_color = rgba(163, 163, 163);
     mat2.phong_exponent = 10;
-    mat2.model = MODEL::AMBIENT;
+    mat2.model = MODEL::BLINN_PHONG;
     s2->material = &mat2;
     scene.surfaces.push_back(s2);
 
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
     mat3.ambient_color = mat3.diffuse_color;
     mat3.specular_color = rgba(163, 163, 163);
     mat3.phong_exponent = 1000;
-    mat3.model = MODEL::AMBIENT;
+    mat3.model = MODEL::BLINN_PHONG;
     s3->material = &mat3;
     scene.surfaces.push_back(s3);
 
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
     mat4.ambient_color = mat4.diffuse_color;
     mat4.specular_color = rgba(163, 163, 163);
     mat4.phong_exponent = 10;
-    mat4.model = MODEL::AMBIENT;
+    mat4.model = MODEL::BLINN_PHONG;
     s4->material = &mat4;
     scene.surfaces.push_back(s4);
 

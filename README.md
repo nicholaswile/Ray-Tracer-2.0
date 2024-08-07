@@ -4,6 +4,19 @@ Last year I built a Ray Tracer using C++ with the Windows API to draw pixels to 
 
 This is a work in progress currently in development.
 
+|Blinn-Phong Shading with Ambient Lighting|
+|-------------------------------------|
+|<img src="screenshots/blinn_phong_w_ambient.png">|
+
+|Lambert Shading with Ambient Lighting|
+|-------------------------------------|
+|<img src="screenshots/lambert_w_ambient.png">|
+
+|Ambient Lighting|
+|-------|
+|<img src="screenshots/ambient.png">|
+Instead of completely black shading in dark areas, we can add an ambient light to each sphere based on its diffuse color. This will blend the shading better.
+
 |Blinn-Phong Shading (specular component)|
 |------------------------------|
 |<img src="screenshots/blinn_phong.png">|
@@ -12,10 +25,6 @@ Sphere materials vary in Phong exponent. From left to right, an "eggshell" mater
 |Lambert Shading|
 |---------------|
 |<img src="screenshots/lambert.png">|
-
-|Ambient Lighting|
-|-------|
-|<img src="screenshots/ambient.png">|
 
 |Triangle Ray (Möller–Trumbore intersection algorithm)|
 |-------------------------|
