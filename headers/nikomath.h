@@ -96,6 +96,9 @@ public:
 
     // Display
     void print();
+
+    // Clamp to [0, 255]
+    rgba clamp() const;
 };
 
 // 4x4 matrix for transformations.

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "nikomath.h"
 #include "material.h"
 // This acts as a point light for now

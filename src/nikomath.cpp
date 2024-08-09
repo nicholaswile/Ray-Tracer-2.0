@@ -145,15 +145,15 @@ rgba::rgba(int r, int g, int b, int a) : r(r), g(g), b(b), a(a) {}
 
 // Binary operators
 rgba rgba::operator+(const rgba &rhs) const {
-    return rgba(r+rhs.r, g+rhs.g, b+rhs.b, a+rhs.a);
+    return rgba(r+rhs.r, g+rhs.g, b+rhs.b, a);
 }
 
 rgba rgba::operator-(const rgba &rhs) const {
-    return rgba(r-rhs.r, g-rhs.g, b-rhs.b, a-rhs.a);
+    return rgba(r-rhs.r, g-rhs.g, b-rhs.b, a);
 }
 
 rgba rgba::operator*(const rgba &rhs) const {
-    return rgba(r*rhs.r, g*rhs.g, b*rhs.b, a*rhs.a);
+    return rgba(r*rhs.r, g*rhs.g, b*rhs.b, a);
 }
 
 rgba rgba::operator*(const vector3 &rhs) const {
@@ -165,7 +165,6 @@ rgba& rgba::operator+=(const rgba &rhs) {
     r += rhs.r;
     g += rhs.g;
     b += rhs.b;
-    a += rhs.a;
     return *this;
 }
 
@@ -173,7 +172,6 @@ rgba& rgba::operator-=(const rgba &rhs) {
     r -= rhs.r;
     g -= rhs.g;
     b -= rhs.b;
-    a -= rhs.a;
     return *this;
 }
 
@@ -182,7 +180,6 @@ rgba &rgba::operator*=(const rgba &rhs)
     r *= rhs.r;
     g *= rhs.g;
     b *= rhs.b;
-    a *= rhs.a;
     return *this;
 }
 
@@ -190,7 +187,6 @@ rgba& rgba::operator*=(const float f) {
     r *= f;
     g *= f;
     b *= f;
-    a *= f;
     return *this;
 }
 
@@ -200,23 +196,36 @@ rgba& rgba::operator/=(const float f) {
     r /= f;
     g /= f;
     b /= f;
-    a /= f;
     return *this;
 }
 
 // Scalar operators
 rgba rgba::operator*(const float f) const {
-    return rgba(r*f, g*f, b*f, a*f);
+    return rgba(r*f, g*f, b*f, a);
 }
 
 rgba rgba::operator/(const float f) const {
     if (f==0)
         throw std::runtime_error("Cannot divide by zero.\n");
-    return rgba(r/f, g/f, b/f, a/f);
+    return rgba(r/f, g/f, b/f, a);
 }
 
 void rgba::print() {
     std::cout << "(" << r << ", " << g << ", " << b << ", " << a << ")\n";
+}
+
+rgba rgba::clamp() const {
+    // Clamp;
+    rgba L = *this;
+    if (L.r > 255) L.r = 255;
+    else if (L.r < 0) L.r = 0;
+    if (L.g > 255) L.g = 255;
+    else if (L.g < 0) L.g = 0;
+    if (L.b > 255) L.b = 255;
+    else if (L.b < 0) L.b = 0;
+    if (L.a > 255) L.a = 255;
+    else if (L.a < 0) L.a = 0;
+    return L;
 }
 
 image::image(const int width, const int height) : width(width), height(height) {
@@ -235,15 +244,7 @@ image::~image()
 void image::set_pixel(int x, int y, const rgba &color) {
     if (x < 0 || x >= width || y < 0 || y >= height)
         std::runtime_error("Pixel coordinates out of bounds.\n");
-    // Clamp
-    rgba L = color;
-    if (L.r > 255) L.r = 255;
-    else if (L.r < 0) L.r = 0;
-    if (L.g > 255) L.g = 255;
-    else if (L.g < 0) L.g = 0;
-    if (L.b > 255) L.b = 255;
-    else if (L.b < 0) L.b = 0;
-    buffer[y][x] = L;
+    buffer[y][x] = color.clamp();
 }
 
 rgba image::get_pixel(int x, int y)

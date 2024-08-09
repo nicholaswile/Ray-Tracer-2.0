@@ -2,6 +2,7 @@
 
 const float POS_INFINITY = std::numeric_limits<float>::max();
 const float EPSILON = .001;
+const int MAX_DEPTH = 5;
 
 void RayTracer::traceray(image &img, const Scene &scene) {
     // View frustrum
@@ -41,7 +42,7 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             }
 
             float t0 = 0, t1 = POS_INFINITY;
-            rgba I = raycolor(ray, t0, t1, scene);
+            rgba I = raycolor(ray, t0, t1, scene, MAX_DEPTH);
 
             img.set_pixel(x, y, I);
             delete ray;
@@ -49,7 +50,10 @@ void RayTracer::traceray(image &img, const Scene &scene) {
     }
 }
 
-rgba RayTracer::raycolor(const Ray *ray, float t0, float t1, const Scene &scene) {
+rgba RayTracer::raycolor(const Ray *ray, float t0, float t1, const Scene &scene, int depth) {
+    if (depth <= 0)
+        return rgba(0, 0, 0);
+    
     // Ray intersection: find first hit object and its surface normal (saved in hit_record)
     hit_record rec = {0, vector3(0, 0, 0), nullptr};
     if (!scene.surfaces.hit_ray(*ray, t0, t1, rec)) {
@@ -58,7 +62,7 @@ rgba RayTracer::raycolor(const Ray *ray, float t0, float t1, const Scene &scene)
     
     // Shading: set pixel color to value computed from point, light, and normal
     rgba I(0, 0, 0);
-    I += rec.mat->ambient_color * scene.ambient_intensity;
+    I += (rec.mat->ambient_color * scene.ambient_intensity).clamp();
 
     vector3 intersection = ray->origin + ray->direction * rec.t;
     for (const auto &light : scene.lights) {
@@ -68,8 +72,27 @@ rgba RayTracer::raycolor(const Ray *ray, float t0, float t1, const Scene &scene)
         vector3 shadow_dir = (light->pos - intersection).normalize();
         Ray shadow_ray(intersection+shadow_dir*EPSILON, shadow_dir);
         if (!scene.enable_shadows || !scene.surfaces.hit_ray(shadow_ray, EPSILON, POS_INFINITY, srec))
-            I += light->compute_shading(rec.mat, rec.normal, ray->origin, intersection); 
+            I += (light->compute_shading(rec.mat, rec.normal, ray->origin, intersection)).clamp(); 
     }
 
-    return I;
+    // Ideal specular reflection 
+
+    // Don't send ray if specular color black
+    if (rec.mat->specular_color.r == 0 && rec.mat->specular_color.g == 0 && rec.mat->specular_color.b == 0)
+        return I.clamp();
+        
+    // Variant of the Phong equation for reflected rays
+    vector3 reflect_dir = (ray->direction)-rec.normal*2*((ray->direction)*rec.normal);
+    Ray reflect_ray(intersection+reflect_dir*EPSILON, reflect_dir);
+
+    rgba diffuse = I.clamp();
+    rgba reflected = (((rec.mat->specular_color)*(raycolor(&reflect_ray, EPSILON, POS_INFINITY, scene, depth-1))).clamp());
+    I = diffuse*(1-rec.mat->reflectivity) + reflected*(rec.mat->reflectivity);
+    if (I.r == 255) {
+        std::cout << "Depth: " << depth << "\n";
+        diffuse.print();
+        reflected.print();
+        I.print();
+    }
+    return I.clamp();
 }
