@@ -82,12 +82,12 @@ rgba RayTracer::raycolor(const Ray *ray, float t0, float t1, const Scene &scene,
         return I.clamp();
         
     // Variant of the Phong equation for reflected rays
-    vector3 reflect_dir = (ray->direction)-rec.normal*2*((ray->direction)*rec.normal);
+    vector3 reflect_dir = ((ray->direction)-rec.normal*2*((ray->direction)*rec.normal)).normalize();
     Ray reflect_ray(intersection+reflect_dir*EPSILON, reflect_dir);
 
     rgba diffuse = I.clamp();
-    rgba reflected = (((rec.mat->specular_color)*(raycolor(&reflect_ray, EPSILON, POS_INFINITY, scene, depth-1))).clamp());
-    I = diffuse*(1-rec.mat->reflectivity) + reflected*(rec.mat->reflectivity);
+    rgba reflected = (raycolor(&reflect_ray, EPSILON, POS_INFINITY, scene, depth-1)).clamp();
+    I = diffuse*(1-rec.mat->reflectivity) + (reflected*rec.mat->reflectivity);
     if (I.r == 255) {
         std::cout << "Depth: " << depth << "\n";
         diffuse.print();

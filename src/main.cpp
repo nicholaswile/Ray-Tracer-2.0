@@ -59,16 +59,18 @@ int main(int argc, char* argv[]) {
     Material mat1, mat2, mat3, mat4, mat5;
     
     Surface *s1 = new Sphere(vector3(0, 0, 1), 1.5);
-    mat1.diffuse_color = rgba(218, 0, 0);
+    mat1.diffuse_color = rgba(255, 255, 255);
     mat1.ambient_color = mat1.diffuse_color;
+    mat1.reflectivity = .20f;
     mat1.phong_exponent = 100;
     mat1.model = MODEL::BLINN_PHONG;
     s1->material = &mat1;
     scene.surfaces.push_back(s1);
 
     Surface *s2 = new Sphere(vector3(3.5, 0, 1), 1.5);
-    mat2.diffuse_color = rgba(0, 218, 0);
+    mat2.diffuse_color = rgba(163, 163, 163);
     mat2.ambient_color = mat2.diffuse_color;
+    mat2.reflectivity = .10f;
     mat2.phong_exponent = 10;
     mat2.model = MODEL::BLINN_PHONG;
     s2->material = &mat2;
@@ -77,6 +79,7 @@ int main(int argc, char* argv[]) {
     Surface *s3 = new Sphere(vector3(-3.5, 0, 1), 1.5);
     mat3.diffuse_color = rgba(128, 0, 218);
     mat3.ambient_color = mat3.diffuse_color;
+    mat3.reflectivity = .10f;
     mat3.phong_exponent = 1000;
     mat3.model = MODEL::BLINN_PHONG;
     s3->material = &mat3;
@@ -90,6 +93,76 @@ int main(int argc, char* argv[]) {
     mat4.model = MODEL::BLINN_PHONG;
     s4->material = &mat4;
     scene.surfaces.push_back(s4);
+
+    /*
+    
+    
+    Surface *s1 = new Sphere(vector3(-3.5, 2, -5), 1);
+    mat1.diffuse_color = rgba(255, 255, 255);
+    mat1.ambient_color = mat1.diffuse_color;
+    mat1.reflectivity = .20f;
+    mat1.phong_exponent = 100;
+    mat1.model = MODEL::BLINN_PHONG;
+    s1->material = &mat1;
+    scene.surfaces.push_back(s1);
+
+    Surface *s2 = new Sphere(vector3(3.5, .4, 1), 1.5);
+    mat2.diffuse_color = rgba(128, 0, 218);
+    mat2.ambient_color = mat2.diffuse_color;
+    mat2.reflectivity = .10f;
+    mat2.phong_exponent = 10;
+    mat2.model = MODEL::BLINN_PHONG;
+    s2->material = &mat2;
+    scene.surfaces.push_back(s2);
+        
+    Surface *s3 = new Sphere(vector3(3.5, 1, -5), 1);
+    mat3.diffuse_color = rgba(255, 0, 0);
+    mat3.ambient_color = mat3.diffuse_color;
+    mat3.reflectivity = .20f;
+    mat3.phong_exponent = 100;
+    mat3.model = MODEL::BLINN_PHONG;
+    s3->material = &mat3;
+    scene.surfaces.push_back(s3);
+
+    Surface *s6 = new Sphere(vector3(1.5, 1, -5), 1);
+    mat6.diffuse_color = rgba(0, 255, 0);
+    mat6.ambient_color = mat6.diffuse_color;
+    mat6.reflectivity = .20f;
+    mat6.phong_exponent = 100;
+    mat6.model = MODEL::BLINN_PHONG;
+    s6->material = &mat6;
+    scene.surfaces.push_back(s6);
+
+    // Surface *s3 = new Sphere(vector3(-3.5, 0, 1), 1.5);
+    // mat3.diffuse_color = rgba(128, 0, 218);
+    // mat3.ambient_color = mat3.diffuse_color;
+    // mat3.reflectivity = .10f;
+    // mat3.phong_exponent = 1000;
+    // mat3.model = MODEL::BLINN_PHONG;
+    // s3->material = &mat3;
+    // scene.surfaces.push_back(s3);
+
+    Surface *s4 = new Sphere(vector3(0, 100, 20), 100);
+    mat4.diffuse_color = rgba(163, 163, 163);
+    mat4.ambient_color = mat4.diffuse_color;
+    mat4.reflectivity = .25f;
+    mat4.phong_exponent = 10;
+    mat4.model = MODEL::BLINN_PHONG;
+    s4->material = &mat4;
+    scene.surfaces.push_back(s4);
+
+    Surface *s5 = new Sphere(vector3(-5, 0, 5), 5);
+    mat5.diffuse_color = rgba(163, 163, 163);
+    mat5.ambient_color = mat5.diffuse_color;
+    mat5.reflectivity = .75f;
+    mat5.phong_exponent = 10000;
+    mat5.model = MODEL::BLINN_PHONG;
+    s5->material = &mat5;
+    scene.surfaces.push_back(s5);
+    
+    
+    
+    */
 
     // Surface *t1 = new Triangle(vector3(-25, 5, -100), vector3(25, 5, -100), vector3(-25, 5, 100));
     // Surface *t2 = new Triangle(vector3(25, 5, -100), vector3(-25, 5, 100), vector3(25, 5, 100));

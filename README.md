@@ -4,6 +4,10 @@ Last year I built a <a href="https://github.com/nicholaswile/3D-Rendering-Ray-Tr
 
 This is a work in progress currently in development. The following are features of my ray tracer in reverse order of development.
 
+|Reflections|
+|-----------|
+|<img src="screenshots/reflections4.png">|
+
 |Shadows|
 |-------|
 |<img src="screenshots/shadows.png">|
