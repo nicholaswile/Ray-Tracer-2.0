@@ -40,30 +40,36 @@ void RayTracer::traceray(image &img, const Scene &scene) {
                 break;
             }
 
-            // Ray intersection: find first hit object and its surface normal (saved in hit_record)
-            hit_record rec = {0, vector3(0, 0, 0), nullptr};
-            if (!scene.surfaces.hit_ray(*ray, 0, POS_INFINITY, rec)) {
-                img.set_pixel(x, y, scene.background_color);
-                continue;
-            }
-
-            // Shading: set pixel color to value computed from point, light, and normal
-            vector3 intersection = ray->origin + ray->direction * rec.t;
-            rgba I(0,0,0);
-
-            I += rec.mat->ambient_color * scene.ambient_intensity;
-            for (const auto &light : scene.lights) {
-                
-                // Check if this point is in shadow
-                hit_record srec = {0, vector3(0, 0, 0)};
-                vector3 shadow_dir = (light->pos - intersection).normalize();
-                Ray shadow_ray(intersection+shadow_dir*EPSILON, shadow_dir);
-                if (!scene.enable_shadows || !scene.surfaces.hit_ray(shadow_ray, EPSILON, POS_INFINITY, srec))
-                    I += light->compute_shading(rec.mat, rec.normal, ray->origin, intersection); 
-            }
+            float t0 = 0, t1 = POS_INFINITY;
+            rgba I = raycolor(ray, t0, t1, scene);
 
             img.set_pixel(x, y, I);
             delete ray;
         }
     }
+}
+
+rgba RayTracer::raycolor(const Ray *ray, float t0, float t1, const Scene &scene) {
+    // Ray intersection: find first hit object and its surface normal (saved in hit_record)
+    hit_record rec = {0, vector3(0, 0, 0), nullptr};
+    if (!scene.surfaces.hit_ray(*ray, t0, t1, rec)) {
+        return scene.background_color;
+    }
+    
+    // Shading: set pixel color to value computed from point, light, and normal
+    rgba I(0, 0, 0);
+    I += rec.mat->ambient_color * scene.ambient_intensity;
+
+    vector3 intersection = ray->origin + ray->direction * rec.t;
+    for (const auto &light : scene.lights) {
+
+        // Check if this point is in shadow
+        hit_record srec = {0, vector3(0, 0, 0)};
+        vector3 shadow_dir = (light->pos - intersection).normalize();
+        Ray shadow_ray(intersection+shadow_dir*EPSILON, shadow_dir);
+        if (!scene.enable_shadows || !scene.surfaces.hit_ray(shadow_ray, EPSILON, POS_INFINITY, srec))
+            I += light->compute_shading(rec.mat, rec.normal, ray->origin, intersection); 
+    }
+
+    return I;
 }
