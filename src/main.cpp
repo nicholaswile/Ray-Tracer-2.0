@@ -100,6 +100,7 @@ int main(int argc, char* argv[]) {
     // t2->material = &mat4;
     // scene.surfaces.push_back(t1);
     // scene.surfaces.push_back(t2);
+
     
     Light *l1 = new Light(vector3(-10, -10, -20));
     scene.lights.push_back(l1);

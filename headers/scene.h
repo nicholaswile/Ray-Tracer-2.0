@@ -1,15 +1,15 @@
 #pragma once
 
 #include "camera.h"
-#include "surface.h"
 #include "light.h"
+#include "group.h"
 
 #include <vector>
 
 class Scene {
 public:
+    Group surfaces; // All surfaces in scene
     std::vector<Camera> cameras; // Might want multiple cameras in the scene
-    std::vector<Surface*> surfaces; // All surfaces in scene, could be sphere, triangle, etc    
     std::vector<Light*> lights; // All lights in scene
     bool enable_shadows = true;
     rgba background_color;

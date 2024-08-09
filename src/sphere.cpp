@@ -2,7 +2,7 @@
 
 Sphere::Sphere(const vector3 &center, float radius) : center(center), radius(radius)  {}
 
-bool Sphere::hit_ray(const Ray &ray, float t0, float t1, hit_record &rec)  {
+bool Sphere::hit_ray(const Ray &ray, float t0, float t1, hit_record &rec) const {
 
     // Equation of sphere
     // center C (a, b, c)

@@ -40,20 +40,11 @@ void RayTracer::traceray(image &img, const Scene &scene) {
                 break;
             }
 
-            // Ray intersection: find first object and its surface normal
-            float t1 = POS_INFINITY;
-            Surface *hit_object = nullptr;
-            bool hit = false;
-            hit_record rec = {0, vector3(0, 0, 0)};
-            for (const auto &object : scene.surfaces) {
-                if (!object->hit_ray(*ray, 0, t1, rec)) 
-                    continue;
-                hit = true;
-                t1 = rec.t;
-                hit_object = object;
-            }
-            if (!hit) {
-                img.set_pixel(x, y, (scene.background_color));
+            // Ray intersection: find first hit object and its surface normal (saved in hit_record)
+            hit_record rec = {0, vector3(0, 0, 0), nullptr};
+
+            if (!scene.surfaces.hit_ray(*ray, 0, POS_INFINITY, rec)) {
+                img.set_pixel(x, y, scene.background_color);
                 continue;
             }
 
@@ -64,22 +55,17 @@ void RayTracer::traceray(image &img, const Scene &scene) {
             for (const auto &light : scene.lights) {
 
                 // Check if this point is in shadow
+                hit_record srec = {0, vector3(0, 0, 0)};
                 vector3 shadow_dir = (light->pos - intersection).normalize();
                 Ray shadow_ray(intersection+shadow_dir*EPSILON, shadow_dir);
-                hit_record srec = {0, vector3(0, 0, 0)};
-                bool shadow = false;
-                if (scene.enable_shadows)
-                    for (const auto &object : scene.surfaces) {
-                        if (object->hit_ray(shadow_ray, EPSILON, POS_INFINITY, srec)) 
-                            shadow = true;
-                }
+                bool shadow = (scene.enable_shadows && scene.surfaces.hit_ray(shadow_ray, EPSILON, POS_INFINITY, srec));
                 
                 average_intensity += light->ambient_intensity;
-                if (!shadow) L += light->compute_shading(hit_object->material, rec.normal, ray->origin, intersection);
+                if (!shadow) L += light->compute_shading(rec.mat, rec.normal, ray->origin, intersection);
             }
 
             if (scene.lights.size() > 0) average_intensity/=scene.lights.size();
-            L += hit_object->material->ambient_color * average_intensity;
+            L += rec.mat->ambient_color * average_intensity;
 
             img.set_pixel(x, y, L);
                 

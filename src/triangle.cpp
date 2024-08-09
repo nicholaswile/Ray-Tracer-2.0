@@ -8,7 +8,7 @@ Triangle::Triangle(const vector3 &A, const vector3 &B, const vector3 &C)
 }
 
 // Möller–Trumbore intersection algorithm
-bool Triangle::hit_ray(const Ray &ray, float t0, float t1, hit_record &rec)  {
+bool Triangle::hit_ray(const Ray &ray, float t0, float t1, hit_record &rec) const {
 
     const float EPSILON = 0.0000001;
     vector3 edge1 = verts[1] - verts[0];
