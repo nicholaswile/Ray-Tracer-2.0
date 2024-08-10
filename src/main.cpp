@@ -10,7 +10,7 @@
 #include <cstdlib> // srand()
 #include <ctime> // time()
 
-const int WIDTH = 1920, HEIGHT = 1080;
+const int WIDTH = 800, HEIGHT = 600;
 const int SCALE_X = 1, SCALE_Y = 1;
 const char* TITLE = "Niko's Ray Tracer";
 
@@ -33,8 +33,6 @@ int main(int argc, char* argv[]) {
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 
-
-
 #define DEBUG
     // Seed RNG
 #ifdef DEBUG
@@ -43,15 +41,11 @@ int main(int argc, char* argv[]) {
     srand(time(0));
 #endif
 
-
-
     RayTracer rt;
     image img(WIDTH, HEIGHT);
 
-
-
     Camera main_cam;
-    //main_cam.set_mode(MODE::ORTHOGRAPHIC);
+    // main_cam.set_mode(MODE::ORTHOGRAPHIC);
     main_cam.focal_length = 50.f;
     main_cam.position = vector3(0, 0, -50);
     Scene scene(main_cam);
@@ -85,14 +79,14 @@ int main(int argc, char* argv[]) {
     s3->material = &mat3;
     scene.surfaces.push_back(s3);
 
-    Surface *s4 = new Sphere(vector3(0, 100, 20), 100);
-    mat4.diffuse_color = rgba(163, 163, 163);
-    mat4.ambient_color = mat4.diffuse_color;
-    mat4.reflectivity = .25f;
-    mat4.phong_exponent = 10;
-    mat4.model = MODEL::BLINN_PHONG;
-    s4->material = &mat4;
-    scene.surfaces.push_back(s4);
+    // Surface *s4 = new Sphere(vector3(0, 100, 20), 100);
+    // mat4.diffuse_color = rgba(163, 163, 163);
+    // mat4.ambient_color = mat4.diffuse_color;
+    // mat4.reflectivity = .25f;
+    // mat4.phong_exponent = 10;
+    // mat4.model = MODEL::BLINN_PHONG;
+    // s4->material = &mat4;
+    // scene.surfaces.push_back(s4);
 
     Surface *s5 = new Sphere(vector3(0, 0, 5.5), 6);
     mat5.diffuse_color = rgba(163, 163, 163);
@@ -102,86 +96,38 @@ int main(int argc, char* argv[]) {
     mat5.model = MODEL::BLINN_PHONG;
     s5->material = &mat5;
     scene.surfaces.push_back(s5);
+
+    const vector3 ORIGIN (-10, 2.5, -10);
+    const int BOARD_LEN = 20;
+    const int NSQ = 20;
+    Group chessboard;
+    const int SQ_LEN = NSQ/BOARD_LEN;
+    Material m1, m2;
+    m1.diffuse_color = rgba(0, 0, 0);
+    m1.ambient_color = m1.diffuse_color;
+    m1.reflectivity = .02f;
+    m1.phong_exponent = 10;
+    m1.model = MODEL::BLINN_PHONG;
+    m2.diffuse_color = rgba(255, 255, 255);
+    m2.ambient_color = m2.diffuse_color;
+    m2.reflectivity = .02f;
+    m2.phong_exponent = 10;
+    m2.model = MODEL::BLINN_PHONG;
+    std::vector<Material*> pattern = {&m1, &m2};
+    int i = 0;
+    for (int y = ORIGIN.z; y < ORIGIN.z + BOARD_LEN; y += SQ_LEN)
+        for (int x = ORIGIN.x; x < ORIGIN.x + BOARD_LEN; x += SQ_LEN) {
+            Surface *tri1 = new Triangle(vector3(x, ORIGIN.y, y), vector3(x+SQ_LEN, ORIGIN.y, y), vector3(x, ORIGIN.y, y+SQ_LEN));
+            Surface *tri2 = new Triangle(vector3(x+SQ_LEN, ORIGIN.y, y), vector3(x+SQ_LEN, ORIGIN.y, y+SQ_LEN), vector3(x, ORIGIN.y, y+SQ_LEN));
+            tri1->material = pattern[i%2];
+            tri2->material = pattern[i%2];
+            i++;
+            chessboard.push_back(tri1);
+            chessboard.push_back(tri2);
+        }   
     
+    scene.surfaces.push_back(&chessboard);
 
-    /*
-    
-    
-    Surface *s1 = new Sphere(vector3(-3.5, 2, -5), 1);
-    mat1.diffuse_color = rgba(255, 255, 255);
-    mat1.ambient_color = mat1.diffuse_color;
-    mat1.reflectivity = .20f;
-    mat1.phong_exponent = 100;
-    mat1.model = MODEL::BLINN_PHONG;
-    s1->material = &mat1;
-    scene.surfaces.push_back(s1);
-
-    Surface *s2 = new Sphere(vector3(3.5, .4, 1), 1.5);
-    mat2.diffuse_color = rgba(128, 0, 218);
-    mat2.ambient_color = mat2.diffuse_color;
-    mat2.reflectivity = .10f;
-    mat2.phong_exponent = 10;
-    mat2.model = MODEL::BLINN_PHONG;
-    s2->material = &mat2;
-    scene.surfaces.push_back(s2);
-        
-    Surface *s3 = new Sphere(vector3(3.5, 1, -5), 1);
-    mat3.diffuse_color = rgba(255, 0, 0);
-    mat3.ambient_color = mat3.diffuse_color;
-    mat3.reflectivity = .20f;
-    mat3.phong_exponent = 100;
-    mat3.model = MODEL::BLINN_PHONG;
-    s3->material = &mat3;
-    scene.surfaces.push_back(s3);
-
-    Surface *s6 = new Sphere(vector3(1.5, 1, -5), 1);
-    mat6.diffuse_color = rgba(0, 255, 0);
-    mat6.ambient_color = mat6.diffuse_color;
-    mat6.reflectivity = .20f;
-    mat6.phong_exponent = 100;
-    mat6.model = MODEL::BLINN_PHONG;
-    s6->material = &mat6;
-    scene.surfaces.push_back(s6);
-
-    // Surface *s3 = new Sphere(vector3(-3.5, 0, 1), 1.5);
-    // mat3.diffuse_color = rgba(128, 0, 218);
-    // mat3.ambient_color = mat3.diffuse_color;
-    // mat3.reflectivity = .10f;
-    // mat3.phong_exponent = 1000;
-    // mat3.model = MODEL::BLINN_PHONG;
-    // s3->material = &mat3;
-    // scene.surfaces.push_back(s3);
-
-    Surface *s4 = new Sphere(vector3(0, 100, 20), 100);
-    mat4.diffuse_color = rgba(163, 163, 163);
-    mat4.ambient_color = mat4.diffuse_color;
-    mat4.reflectivity = .25f;
-    mat4.phong_exponent = 10;
-    mat4.model = MODEL::BLINN_PHONG;
-    s4->material = &mat4;
-    scene.surfaces.push_back(s4);
-
-    Surface *s5 = new Sphere(vector3(-5, 0, 5), 5);
-    mat5.diffuse_color = rgba(163, 163, 163);
-    mat5.ambient_color = mat5.diffuse_color;
-    mat5.reflectivity = .75f;
-    mat5.phong_exponent = 10000;
-    mat5.model = MODEL::BLINN_PHONG;
-    s5->material = &mat5;
-    scene.surfaces.push_back(s5);
-    
-    
-    
-    */
-
-    // Surface *t1 = new Triangle(vector3(-25, 5, -100), vector3(25, 5, -100), vector3(-25, 5, 100));
-    // Surface *t2 = new Triangle(vector3(25, 5, -100), vector3(-25, 5, 100), vector3(25, 5, 100));
-    // t1->material = &mat4;
-    // t2->material = &mat4;
-    // scene.surfaces.push_back(t1);
-    // scene.surfaces.push_back(t2);
-
-    
     Light *l1 = new Light(vector3(-10, -10, -20));
     scene.lights.push_back(l1);
 
@@ -193,29 +139,8 @@ int main(int argc, char* argv[]) {
     l3->intensity = vector3(.05, .05, .05);
     scene.lights.push_back(l3);
 
-    // Surface *s4 = new Triangle(vector3(-1, -1.5, 2), vector3(0, -3.5, 2), vector3(1, -1.5, 2));
-    // s4->material = &mat3;
-    // scene.surfaces.push_back(s4);
-
-    // Surface *s5 = new Triangle(vector3(-3.5, -1.5, 2), vector3(-2.5, -3.5, 2), vector3(-1.5, -1.5, 2));
-    // s5->material = &mat2;
-    // scene.surfaces.push_back(s5);
-
-    // Surface *s6 = new Triangle(vector3(3.5, -1.5, 2), vector3(2.5, -3.5, 2), vector3(1.5, -1.5, 2));
-    // s6->material = &mat1;
-    // scene.surfaces.push_back(s6);
-
-    // Surface *s7 = new Sphere(vector3(0, 0, 5), 5);
-    // mat4.surface_color = rgba(0, 0, 0);
-    // s7->material = &mat4;
-    // scene.surfaces.push_back(s7);
-
-   
-
     // Ray Tracer function
     rt.traceray(img, scene);
-
-
 
     while (true) {
         // Start frame time
@@ -242,7 +167,7 @@ int main(int argc, char* argv[]) {
             SDL_Delay(FRAME_LIMIT - delta_time);
         }
     }
-
+    
     return 0;
 }
 

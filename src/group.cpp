@@ -17,3 +17,4 @@ bool Group::hit_ray(const Ray &ray, float t0, float t1, hit_record &rec)  const 
 void Group::push_back(Surface *surface) {
     surfaces.push_back(surface);
 }
+
