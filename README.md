@@ -1,8 +1,10 @@
 # Ray-Tracer-2.0
 
-Last year I built a <a href="https://github.com/nicholaswile/3D-Rendering-Ray-Tracer">Ray Tracer</a> using C++ with the Windows API to draw pixels to the console. This year I've decided to create another (and hopefully more sophisticated) Ray Tracer using C++ with SDL. 
+<img src="screenshots/full_screen_ref.png">
 
-This is a work in progress currently in development. The following are features of my ray tracer in reverse order of development.
+A ray tracer for rendering 3D scenes.
+
+Last year I built a <a href="https://github.com/nicholaswile/3D-Rendering-Ray-Tracer">Ray Tracer</a> using C++ with the Windows API to draw pixels to the console. This year I've decided to create a more sophisticated and extensible Ray Tracer using C++ with SDL. This is a work in progress currently in development. The following are features of my ray tracer in reverse order of development.
 
 |Reflections|
 |-----------|

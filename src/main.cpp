@@ -10,7 +10,7 @@
 #include <cstdlib> // srand()
 #include <ctime> // time()
 
-const int WIDTH = 800, HEIGHT = 600;
+const int WIDTH = 1920, HEIGHT = 1080;
 const int SCALE_X = 1, SCALE_Y = 1;
 const char* TITLE = "Niko's Ray Tracer";
 
@@ -55,11 +55,11 @@ int main(int argc, char* argv[]) {
     main_cam.focal_length = 50.f;
     main_cam.position = vector3(0, 0, -50);
     Scene scene(main_cam);
-    scene.background_color = rgba(0, 0, 0);
+    scene.background_color = rgba(135, 206, 235);
     Material mat1, mat2, mat3, mat4, mat5;
     
-    Surface *s1 = new Sphere(vector3(0, 0, 1), 1.5);
-    mat1.diffuse_color = rgba(255, 255, 255);
+    Surface *s1 = new Sphere(vector3(0, 2, -4.5), 1);
+    mat1.diffuse_color = rgba(0, 218, 0);
     mat1.ambient_color = mat1.diffuse_color;
     mat1.reflectivity = .20f;
     mat1.phong_exponent = 100;
@@ -67,8 +67,8 @@ int main(int argc, char* argv[]) {
     s1->material = &mat1;
     scene.surfaces.push_back(s1);
 
-    Surface *s2 = new Sphere(vector3(3.5, 0, 1), 1.5);
-    mat2.diffuse_color = rgba(163, 163, 163);
+    Surface *s2 = new Sphere(vector3(3.5, 1.5, -2), 1);
+    mat2.diffuse_color = rgba(218, 0, 0);
     mat2.ambient_color = mat2.diffuse_color;
     mat2.reflectivity = .10f;
     mat2.phong_exponent = 10;
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     s2->material = &mat2;
     scene.surfaces.push_back(s2);
 
-    Surface *s3 = new Sphere(vector3(-3.5, 0, 1), 1.5);
+    Surface *s3 = new Sphere(vector3(-3.5, 1.5, -2), 1);
     mat3.diffuse_color = rgba(128, 0, 218);
     mat3.ambient_color = mat3.diffuse_color;
     mat3.reflectivity = .10f;
@@ -93,6 +93,16 @@ int main(int argc, char* argv[]) {
     mat4.model = MODEL::BLINN_PHONG;
     s4->material = &mat4;
     scene.surfaces.push_back(s4);
+
+    Surface *s5 = new Sphere(vector3(0, 0, 5.5), 6);
+    mat5.diffuse_color = rgba(163, 163, 163);
+    mat5.ambient_color = mat5.diffuse_color;
+    mat5.reflectivity = .75f;
+    mat5.phong_exponent = 10000;
+    mat5.model = MODEL::BLINN_PHONG;
+    s5->material = &mat5;
+    scene.surfaces.push_back(s5);
+    
 
     /*
     
