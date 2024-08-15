@@ -50,11 +50,9 @@ For now I'm gonna focus on the spheres, but eventually I'd like to use this towa
 |<img src="screenshots/surface_color.png">|
 
 ### External libraries
-<ul>
 <li>
 <a href="https://github.com/libsdl-org/SDL">Simple DirectMedia Layer</a> (SDL) for windowing and input. Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
 </li>
 <li>
 <a href="https://github.com/libsdl-org/SDL_image">SDL_image</a> for image decoding. Copyright (C) 1997-2024 Sam Lantinga <slouken@libsdl.org>
 </li> 
-</u
